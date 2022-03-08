@@ -15,6 +15,7 @@ public final class SimpleEvent<I> {
 
     private final static int DEFAULT_POOL_SIZE = 10;
     private final static AtomicInteger indexer = new AtomicInteger(1);
+
     private final Map<String, Set<Task<I>>> subscriptions = new HashMap<>();
     private final ExecutorService executorService;
     private final List<Future<?>> executingFutures = new LinkedList<>();
@@ -35,13 +36,16 @@ public final class SimpleEvent<I> {
 
     public Observable<I> subscribe(String topic, Consumer<I> consumer) {
         checkTopic(topic);
+        checkConsumer(consumer);
+
         Set<Task<I>> topicConsumers = subscriptions.get(topic);
 
         if (topicConsumers == null) {
             topicConsumers = new HashSet<>();
         }
 
-        Task<I> task = new Task<>(indexer.getAndIncrement(), consumer);
+        int taskId = indexer.getAndIncrement();
+        Task<I> task = new Task<>(taskId, consumer);
         topicConsumers.add(task);
         subscriptions.putIfAbsent(topic, topicConsumers);
 
@@ -101,6 +105,11 @@ public final class SimpleEvent<I> {
 
     private void checkTopic(String topic) {
         if (topic == null || topic.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+    }
+    private void checkConsumer(Consumer<I> consumer) {
+        if (consumer == null) {
             throw new IllegalArgumentException();
         }
     }

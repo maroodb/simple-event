@@ -259,4 +259,13 @@ public class SimpleEventTest {
         };
         assertThrows(IllegalArgumentException.class, observableSupplier::get);
     }
+
+    @Test
+    public void throwExceptionWhenGiveNullConsumer() {
+        SimpleEvent<Integer> simpleEvent = new SimpleEvent<>();
+        Supplier<Observable<Integer>> observableSupplier = () -> {
+            return simpleEvent.subscribe(TOPIC, null);
+        };
+        assertThrows(IllegalArgumentException.class, observableSupplier::get);
+    }
 }
