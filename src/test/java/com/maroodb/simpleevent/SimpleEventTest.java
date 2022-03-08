@@ -223,4 +223,40 @@ public class SimpleEventTest {
         assertEquals(expectedResult, sb.toString());
     }
 
+    @Test
+    public void publishToNonExistingTopic() {
+        SimpleEvent<String> simpleEvent = new SimpleEvent<>();
+        StringBuffer sb = new StringBuffer();
+        Consumer<String> consumer = sb::append;
+
+        simpleEvent.subscribe(TOPIC, consumer);
+
+        simpleEvent.publish("NEW_TOPIC", "1");
+
+        with().pollDelay(100, MILLISECONDS)
+                .and()
+                .pollInterval(200, MILLISECONDS)
+                .await().until(simpleEvent::thereIsNoActiveTask);
+
+        assertEquals(0, sb.length());
+    }
+
+    @Test
+    public void throwExceptionWhenGiveEmptyTopic() {
+        SimpleEvent<Integer> simpleEvent = new SimpleEvent<>();
+        Supplier<Observable<Integer>> observableSupplier = () -> {
+             return simpleEvent.subscribe("", System.out::println);
+        };
+
+        assertThrows(IllegalArgumentException.class, observableSupplier::get);
+    }
+
+    @Test
+    public void throwExceptionWhenGiveNullTopic() {
+        SimpleEvent<Integer> simpleEvent = new SimpleEvent<>();
+        Supplier<Observable<Integer>> observableSupplier = () -> {
+            return simpleEvent.subscribe(null, System.out::println);
+        };
+        assertThrows(IllegalArgumentException.class, observableSupplier::get);
+    }
 }

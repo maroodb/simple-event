@@ -8,7 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public final class SimpleEvent <I> {
+/**
+ * @author maroodb
+ */
+public final class SimpleEvent<I> {
 
     private final static int DEFAULT_POOL_SIZE = 10;
     private final static AtomicInteger indexer = new AtomicInteger(1);
@@ -19,6 +22,7 @@ public final class SimpleEvent <I> {
     public SimpleEvent() {
         executorService = Executors.newFixedThreadPool(DEFAULT_POOL_SIZE);
     }
+
     public SimpleEvent(int poolSize) {
         checkPoolSize(poolSize);
         executorService = Executors.newFixedThreadPool(poolSize);
@@ -29,15 +33,8 @@ public final class SimpleEvent <I> {
         this.executorService = executorService;
     }
 
-    private void checkExecutorService(ExecutorService executorService) {
-        if (executorService.isShutdown()) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-
     public Observable<I> subscribe(String topic, Consumer<I> consumer) {
-
+        checkTopic(topic);
         Set<Task<I>> topicConsumers = subscriptions.get(topic);
 
         if (topicConsumers == null) {
@@ -52,7 +49,7 @@ public final class SimpleEvent <I> {
     }
 
     public void publish(String topic, I message) {
-
+        runCleanFutureTask();
         Set<Task<I>> topicConsumers = subscriptions.get(topic);
         if (topicConsumers == null) {
             return;
@@ -79,6 +76,10 @@ public final class SimpleEvent <I> {
         return executingFutures.size() == 0;
     }
 
+    private void runCleanFutureTask() {
+        executorService.submit(this::removeTerminatedFutures);
+    }
+
     private void removeTerminatedFutures() {
         Predicate<Future<?>> isCancelled = Future::isCancelled;
         Predicate<Future<?>> isDone = Future::isDone;
@@ -88,6 +89,18 @@ public final class SimpleEvent <I> {
 
     private void checkPoolSize(int poolSize) {
         if (poolSize < 1) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void checkExecutorService(ExecutorService executorService) {
+        if (executorService.isShutdown()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void checkTopic(String topic) {
+        if (topic == null || topic.isEmpty()) {
             throw new IllegalArgumentException();
         }
     }
