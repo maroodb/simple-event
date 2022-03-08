@@ -202,4 +202,25 @@ public class SimpleEventTest {
         assertThrows(IllegalArgumentException.class, supplier::get);
     }
 
+    @Test
+    public void acceptSubTypesOfMessageParameter() {
+        SimpleEvent<Number> simpleEvent = new SimpleEvent<>();
+        Integer message1 = 1;
+        Long message2 = 2L;
+        String expectedResult = "12";
+
+        StringBuffer sb = new StringBuffer();
+        Consumer<Number> consumer = sb::append;
+        simpleEvent.subscribe(TOPIC, consumer);
+        simpleEvent.publish(TOPIC, message1);
+        simpleEvent.publish(TOPIC, message2);
+
+        with().pollDelay(100, MILLISECONDS)
+                .and()
+                .pollInterval(200, MILLISECONDS)
+                .await().until(simpleEvent::thereIsNoActiveTask);
+
+        assertEquals(expectedResult, sb.toString());
+    }
+
 }
