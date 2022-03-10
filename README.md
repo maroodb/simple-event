@@ -1,5 +1,5 @@
 # SimpleEvent: A simple Java PubSub Library 
-SimpleEvent is a simple event pubSub library that makes asynchronous
+SimpleEvent is a simple event PubSub implementation library that makes asynchronous
 messaging between objects more simple.
 
 ## Foretaste
@@ -13,3 +13,6 @@ simpleEvent.subscribe("MyTopic", (message) -> {
 
 simpleEvent.publish("MyTopic", "Hello World!");
 ```
+
+## Installation
+todo
