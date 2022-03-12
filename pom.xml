@@ -24,6 +24,21 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>maroodb</name>
+            <email>marouen.dbouba@gmail.com</email>
+            <organization>maroodb</organization>
+            <organizationUrl>https://github.com/maroodb</organizationUrl>
+            <timezone>UTC+01</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/maroodb/simple-event.git</connection>
+        <developerConnection>scm:git:git@github.com:maroodb/simple-event.git</developerConnection>
+        <url>https://github.com/maroodb/simple-event</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
