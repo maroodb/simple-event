@@ -16,7 +16,7 @@ simpleEvent.publish("MyTopic", "Hello World!");
 
 ## Installation
 
-### Maven Repository
+### Maven
 
 ```
 <dependency>
@@ -25,4 +25,11 @@ simpleEvent.publish("MyTopic", "Hello World!");
   <version>1.0.1</version>
 </dependency>
 ```
+### Gradle
 
+```
+dependencies {
+implementation group: 'io.github.maroodb', name: 'simple-event', version: '1.0.1'
+    ...
+}
+```
