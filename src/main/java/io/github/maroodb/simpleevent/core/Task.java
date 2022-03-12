@@ -1,4 +1,4 @@
-package com.maroodb.simpleevent.core;
+package io.github.maroodb.simpleevent.core;
 
 import java.util.Objects;
 import java.util.function.Consumer;

@@ -4,7 +4,7 @@
 
     <groupId>io.github.maroodb</groupId>
     <artifactId>simple-event</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
 
 
     <name>Java SimpleEvent</name>
@@ -139,7 +139,6 @@
                         <configuration>
                             <!--suppress UnresolvedMavenProperty -->
                             <keyname>${gpg.keyname}</keyname>
-                            <passphraseServerId>${gpg.keyname}</passphraseServerId>
                         </configuration>
                     </execution>
                 </executions>

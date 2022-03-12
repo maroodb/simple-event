@@ -1,7 +1,7 @@
-package com.maroodb.simpleevent;
+package io.github.maroodb.simplevent;
 
-import com.maroodb.simpleevent.core.Observable;
-import com.maroodb.simpleevent.core.SimpleEvent;
+import io.github.maroodb.simpleevent.core.Observable;
+import io.github.maroodb.simpleevent.core.SimpleEvent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

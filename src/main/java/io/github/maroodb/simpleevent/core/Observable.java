@@ -1,4 +1,4 @@
-package com.maroodb.simpleevent.core;
+package io.github.maroodb.simpleevent.core;
 
 /**
  * Observable it's the return type of subscribe method, its purpose is to handle subscription.

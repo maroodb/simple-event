@@ -1,4 +1,4 @@
-package com.maroodb.simpleevent.core;
+package io.github.maroodb.simpleevent.core;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
